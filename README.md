@@ -7,7 +7,7 @@ of pixels for each tonal value. By looking at the histogram for a specific image
 a viewer will be able to judge the entire tonal distribution at a glance.
 
 This project aims to create a tool to classify imgaes by analyzing histograms
-using a neural network. It has many aplications suck as porn detection and more!
+using a neural network. It has many aplications such as porn detection and more!
 
 This project still very beta! And needs your colaboration!
 

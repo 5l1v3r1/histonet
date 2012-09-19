@@ -22,9 +22,9 @@ Thanks!
 TODO
 ====
 
--Do some refactoring (DRY  principle).
--Add persistence.
--Testing.
+1. Do some refactoring (DRY  principle)
+2. Add persistence
+3. Unit-Testing
 
 Contributing
 ============

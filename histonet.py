@@ -24,8 +24,8 @@ from pybrain.datasets import SupervisedDataSet
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
 
-#10 Neurons in the hidden layer works fast but it's inaccurate.
-NET = buildNetwork(768, 10, 1, bias=True, hiddenclass=TanhLayer) 
+
+NET = buildNetwork(768, 20, 1, bias=True, hiddenclass=TanhLayer) 
 DATASET = SupervisedDataSet(768, 1)
 
 
@@ -56,7 +56,7 @@ def use_network(path):
     """
     Activates the network.
     """
-    print "Adding folder %s to dataset" % path
+    print "Using network for files in folder %s." % path
     try:
         listing = os.listdir(path)
         for infile in listing:
@@ -81,8 +81,7 @@ def train_network():
     print 'Training network ...'
     trainer = BackpropTrainer(NET)
     trainer.trainUntilConvergence(dataset=DATASET, maxEpochs=None, verbose=None,
-                                  continueEpochs=10, validationProportion=0.25)
-    
+                                  continueEpochs=1, validationProportion=0.025)
         
 if __name__ == "__main__":
     load_dataset('white/', 0)

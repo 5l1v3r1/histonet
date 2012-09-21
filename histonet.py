@@ -29,25 +29,30 @@ NET = buildNetwork(768, 20, 1, bias=True, hiddenclass=TanhLayer)
 DATASET = SupervisedDataSet(768, 1)
 
 
+def get_histogram(img_path):
+    """
+    Loads images contaied in an spesific path and returns its histogram.
+    """
+    print 'Processing file: %s' % img_path
+    img = Image.open(img_path)
+    histogram = img.histogram()
+    if len(histogram) != 768:
+        raise IOError("Image is not in RGB mode.")
+    else:
+        return histogram
+        
+
 def load_dataset(path, output):
     """
     Loads images contaied in an spesific folder and adds its histogram to the
     dataset.
     """
-    print "Adding folder %s to dataset" % path
+    print "Processing dataset: %s" % path
     try:
         listing = os.listdir(path)
         for infile in listing:
             img_path = os.path.join(path, infile) 
-            print 'Processing file: %s' % img_path
-            img = Image.open(img_path)
-            histogram = img.histogram()
-            if len(histogram) != 768:
-                print "Error: Image is not RGB mode."
-                
-            else:
-                print "Adding histogram to dataset."
-                DATASET.addSample( histogram , (output,))
+            DATASET.addSample(get_histogram(img_path), (output,))
     except (IOError, OSError), ex:
         print "Error: %s" % ex
 
@@ -56,20 +61,13 @@ def use_network(path):
     """
     Activates the network.
     """
-    print "Using network for files in folder %s." % path
+    print "Activating network using files in: %s." % path
     try:
         listing = os.listdir(path)
         for infile in listing:
-            img_path = os.path.join(path, infile) 
-            print 'Processing file: %s' % img_path
-            img = Image.open(img_path)
-            histogram = img.histogram()
-            if len(histogram) != 768:
-                print "Error: Image is not RGB mode."
-                
-            else:
-                result = NET.activate(histogram)
-                print "Result: %s" % result
+            img_path = os.path.join(path, infile)
+            result = NET.activate(get_histogram(img_path))
+            print "Result: %s" % result
     except (IOError, OSError), ex:
         print "Error: %s" % ex
 
@@ -78,7 +76,7 @@ def train_network():
     """
     Trains the network.
     """
-    print 'Training network ...'
+    print 'Training network, please wait ...'
     trainer = BackpropTrainer(NET)
     trainer.trainUntilConvergence(dataset=DATASET, maxEpochs=None, verbose=None,
                                   continueEpochs=1, validationProportion=0.025)
@@ -89,4 +87,3 @@ if __name__ == "__main__":
     train_network()
     use_network('use/')
     
-

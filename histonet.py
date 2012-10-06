@@ -1,3 +1,4 @@
+#!/usr/local/bin/python
 """
 Neural network example built using pyBrain to classify images by histogram.
 
@@ -19,13 +20,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 from PIL import Image
-from pybrain import TanhLayer
+from pybrain import SigmoidLayer
 from pybrain.datasets import SupervisedDataSet
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
 
 
-NET = buildNetwork(768, 20, 1, bias=True, hiddenclass=TanhLayer) 
+NET = buildNetwork(768, 20, 1, bias=True, hiddenclass=SigmoidLayer) 
 DATASET = SupervisedDataSet(768, 1)
 
 
